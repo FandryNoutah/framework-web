@@ -17,8 +17,7 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->float('balance', 8, 2);
             $table->boolean('active')->default(0);
-            $table->integer('id_user');
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

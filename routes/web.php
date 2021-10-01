@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'IndexController@index')->name('index')->middleware('auth');
 
 Route::get('login', 'LoginController@login')->name('login');
+Route::post('login', 'LoginController@authenticate')->name('authenticate');
+Route::get('register', 'RegisterController@register')->name('register');
+Route::post('register', 'RegisterController@store')->name('register-store');
+
