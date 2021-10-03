@@ -10860,22 +10860,18 @@ a:focus {
   }
 }
 
-.bg-login-image {
-  background: url("https://source.unsplash.com/K4mSJ7kc0As/600x800");
+.bg-logo-image-white{
+  background: url("../img/bank_logo_white.svg");
   background-position: center;
-  background-size: cover;
+  background-size: 70%;
+  background-repeat: no-repeat;
 }
 
-.bg-register-image {
-  background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
+.bg-logo-image {
+  background: url("../img/bank_logo.svg");
   background-position: center;
-  background-size: cover;
-}
-
-.bg-password-image {
-  background: url("https://source.unsplash.com/oWTW-jNGl9I/600x800");
-  background-position: center;
-  background-size: cover;
+  background-size: 80%;
+  background-repeat: no-repeat;
 }
 
 form.user .custom-checkbox.small label {

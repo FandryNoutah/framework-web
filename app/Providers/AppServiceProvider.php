@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\User;
+
+use Doctrine\DBAL\Schema\View;
+use Illuminate\View\View as ViewView;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->share('total_balance', User::sum('balance'));
     }
 }

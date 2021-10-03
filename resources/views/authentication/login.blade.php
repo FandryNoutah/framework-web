@@ -10,18 +10,46 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block bg-logo-image"></div>
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
+
+                                @if (session('error_message') != null)
+                                    <div class="alert alert-danger alert-dismissible fade show animated--grow-in" role="alert">
+                                        {{ session('error_message') }}
+
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                @endif
+
+                                @if (session('success_message') != null)
+                                    <div class="alert alert-success alert-dismissible fade show animated--grow-in" role="alert">
+                                        {{ session('success_message') }}
+
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                @endif
+
                                 <form action="{{ route('authenticate') }}" method="POST" class="user">
+                                    @csrf
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                        <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                        @error('email')
+                                            <div class="form-text text-danger ml-3">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">
+                                        <input type="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">
+                                        @error('password')
+                                            <div class="form-text text-danger ml-3">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">

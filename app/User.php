@@ -15,29 +15,37 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+    /* protected $fillable = [
         'name', 'email', 'password',
-    ];
+    ]; */
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
+    /* protected $hidden = [
         'password', 'remember_token',
-    ];
+    ]; */
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
+    /* protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
+    ]; */
 
-    public function account(){
-        return $this->hasOne('App\Account');
+    public function deposits(){
+        return $this->hasMany('App\Deposit');
+    }
+
+    public function withdrawals(){
+        return $this->hasMany('App\Withdrawal');
+    }
+
+    public function loans(){
+        return $this->hasMany('App\Loan');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountsTable extends Migration
+class CreateLoansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->float('balance', 8, 2);
-            $table->boolean('active')->default(0);
+            $table->float('amount');
             $table->foreignId('user_id')->constrained('users');
+            $table->enum('status', ['Waiting', 'Unpaid', 'Paid'])->default("waiting");
+            $table->text('description');
+            $table->string('attachment');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('loans');
     }
 }
