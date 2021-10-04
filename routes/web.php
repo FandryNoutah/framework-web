@@ -35,7 +35,11 @@ Route::group(['middleware' => ['auth', 'activated']], function(){
     Route::get('user/{id_user}/destroy', 'UserController@destroy')->name('user-destroy')->middleware(['admin.only']);
 
     Route::get('loan', 'LoanController@index')->name('loan-index');
-    Route::post('loan', 'LoanController@store')->name('loan-store');
+    Route::post('loan', 'LoanController@store')->name('loan-store')->middleware('user.only');
+    Route::get('loan/{id_loan}', 'LoanController@show')->name('loan-show');
+    Route::get('loan/{id_loan}/attachment', 'LoanController@attachment')->name('loan-attachment');
+    Route::get('loan/{id_loan}/confirm', 'LoanController@confirm')->name('loan-confirm')->middleware('admin.only');
+    Route::get('loan/{id_loan}/reject', 'LoanController@reject')->name('loan-reject')->middleware('admin.only');
 
     Route::get('profile', 'ProfileController@index')->name('profile-index')->withoutMiddleware('activated');
     Route::post('profile', 'ProfileController@update')->name('profile-update')->withoutMiddleware('activated');

@@ -50,14 +50,18 @@ class DepositController extends Controller
 
         $amount = floatval($request->amount);
         $user = User::find(Auth::id());
+        $admin = User::where('is_admin', 1)->first();
 
         $deposit = new Deposit();
         $deposit->amount = $amount;
 
         if ($user->deposits()->save($deposit)){
             $user->balance = $user->balance + $amount;
+            $admin->balance = $admin->balance + $amount;
 
             if($user->save()){
+                $admin->save();
+
                 $request->session()->flash('success_message', "Your deposit transaction have been saved successfully! Your current balance is ". $user->balance ." Ariary.");
             } else {
                 $user->deposits()->delete($deposit);

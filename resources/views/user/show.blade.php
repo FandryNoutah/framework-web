@@ -137,8 +137,8 @@
                     <p id="confirmation_text"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancelButton">Annuler</button>
-                    <button type="button" class="btn btn-primary" id="confirmButton">Confirmer</button>
+                    <button type="button" class="btn btn-secondary" id="cancelButton">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
                 </div>
             </div>
         </div>

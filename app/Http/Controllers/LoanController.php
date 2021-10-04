@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoanRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class LoanController extends Controller
 {
@@ -54,7 +55,7 @@ class LoanController extends Controller
         $status = "Waiting";
 
         try {
-            $attachment = $request->file('attachment')->store('uploads/documents/loan/'.Auth::id(), ['disk' => 'uploads']);
+            $attachment = $request->file('attachment')->store('documents/loan/'.Auth::id(), ['disk' => 'uploads']);
         } catch (Exception $e) {
             $request->session()->flash('error_message', "An error has occured while uploading your document! Please, try again later.");
             return redirect(route('loan-index'));
@@ -74,5 +75,66 @@ class LoanController extends Controller
         }
 
         return redirect(route('loan-index'));
+    }
+
+    public function show($id_loan){
+        $loan = Loan::find($id_loan);
+        $user = $loan->user()->first();
+
+        return view('loan.show', [
+            'loan'  =>  $loan,
+            'user'  =>  $user
+        ]);
+    }
+
+    public function attachment($id_loan){
+        $loan = Loan::find($id_loan);
+
+        $attachment = $loan->attachment;
+
+        $headers = array(
+            'Content-Type: application/pdf',
+        );
+
+        return response()->download($attachment, 'attachment.pdf', $headers);
+    }
+
+    public function confirm($id_loan, Request $request){
+        $loan = Loan::find($id_loan);
+
+        $user = $loan->user()->first();
+        $admin = User::where('is_admin', 1)->first();
+
+        if ($admin->balance < $loan->amount) {
+            $request->session()->flash('error_message', "Bank's balance is not enough for this loan!");
+
+            return redirect(route('loan-show', ['id_loan' => $id_loan]));
+        }else{
+
+            $user->balance = $user->balance + $loan->amount;
+            $admin->balance = $admin->balance - $loan->amount;
+
+            $user->save();
+            $admin->save();
+
+            $loan->status = "Unpaid";
+            $loan->save();
+
+            $request->session()->flash('success_message', "User's loan has been accepted successfully!");
+
+            return redirect(route('loan-show', ['id_loan' => $id_loan]));
+        }
+
+    }
+
+    public function reject($id_loan, Request $request){
+        $loan = Loan::find($id_loan);
+
+        $loan->status = "Rejected";
+
+        $loan->save();
+
+        $request->session()->flash('success_message', "User's loan has been rejected successfully!");
+        return redirect(route('loan-show', ['id_loan' => $id_loan]));
     }
 }

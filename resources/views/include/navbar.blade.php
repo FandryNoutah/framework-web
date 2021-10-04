@@ -167,7 +167,7 @@
             </li> --}}
             <li class="nav-item no-arrow">
                 <span class="nav-link">
-                    <span class="mr-2 d-none d-lg-inline @if ($total_balance == 0) text-danger @else text-gray-600 @endif">Current bank balance: {{ $total_balance }} Ariary</span>
+                    <span class="mr-2 d-none d-lg-inline @if (Auth::user()->balance == 0) text-danger @else text-gray-600 @endif">Current bank balance: {{ Auth::user()->balance }} Ariary</span>
                 </span>
             </li>
         @else

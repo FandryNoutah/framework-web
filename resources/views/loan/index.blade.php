@@ -63,7 +63,7 @@
                                             @endswitch">{{ $loan->status }}</span>
                                         </td>
                                         <td>
-                                            {{-- <a href="{{ route('loan-show', ['id_loan' => $loan->id]) }}" class="text-secondary fs-5"><i class="fa fa-info-circle"></i></a> --}}
+                                            <a href="{{ route('loan-show', ['id_loan' => $loan->id]) }}" class="btn btn-secondary btn-sm">Details <i class="fas fa-chevron-circle-right"></i></a>
                                             {{-- <a href="{{ route('loan-destroy', ['id_user' => $user->id]) }}" class="text-danger delete-button fs-5"><i class="fa fa-trash"></i></a> --}}
                                         </td>
                                     </tr>

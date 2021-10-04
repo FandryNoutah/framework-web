@@ -52,14 +52,18 @@ class WithdrawalController extends Controller
 
         $user = User::find(Auth::id());
         $amount = floatval($request->amount);
+        $admin = User::where('is_admin', 1)->first();
 
         $withdrawal = new Withdrawal();
         $withdrawal->amount = $amount;
 
         if ($user->withdrawals()->save($withdrawal)) {
             $user->balance = $user->balance - $amount;
+            $admin->balance = $admin->balance - $amount;
 
             if($user->save()){
+                $admin->save();
+
                 $request->session()->flash('success_message', "Your withdrawal transaction have been saved successfully! Your current balance is ". $user->balance ." Ariary.");
             } else {
                 $user->withdrawals->delete($withdrawal);
